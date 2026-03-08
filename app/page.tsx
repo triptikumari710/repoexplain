@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import RepositoryInput from "@/components/RepositoryInput";
 import ResultCard from "@/components/ResultCard";
-import Loader from "@/components/Loader";
 import ChatBot from "@/components/ChatBot";
 import Logo from "@/components/Logo";
 import Mascot, { MascotState } from "@/components/Mascot";
@@ -127,13 +126,6 @@ export default function Home() {
         <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <RepositoryInput onAnalyze={handleAnalyze} isAnalyzing={loading} progress={progress} />
         </div>
-
-        {/* Loading State */}
-        {loading && (
-          <div className="animate-fade-in">
-            <Loader />
-          </div>
-        )}
 
         {/* Error State */}
         {error && (
