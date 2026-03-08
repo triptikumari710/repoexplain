@@ -67,7 +67,7 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
       initial={{ opacity: 0, y: 100, scale: 0.8 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed bottom-6 right-6 z-50 pointer-events-none"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 pointer-events-none"
     >
       {/* Glassmorphism Card with soft theme */}
       <motion.div
@@ -85,12 +85,12 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-[#7EC8E3]/30 to-[#B9A7FF]/30 rounded-3xl blur-xl"></div>
         
         {/* Glass card */}
-        <div className="relative glass-strong rounded-3xl p-4 border-2 border-white/50 shadow-2xl overflow-hidden">
+        <div className="relative glass-strong rounded-2xl sm:rounded-3xl p-3 sm:p-4 border-2 border-white/50 shadow-2xl overflow-hidden">
           {/* Background animation */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#7EC8E3]/10 to-[#8A7CFF]/10 animate-pulse-glow"></div>
           
           {/* Video container */}
-          <div className="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center">
+          <div className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.video
                 key={currentVideo}
