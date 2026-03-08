@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body = await request.json();
-    const { repoUrl, eli5 } = body;
+    const { repoUrl } = body;
 
     // Validate input
     if (!repoUrl || typeof repoUrl !== "string") {
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const repoData = await fetchRepositoryData(repoUrl);
 
     // Step 2: Analyze repository with Gemini AI
-    const analysis = await analyzeRepositoryWithAI(repoData, eli5 || false);
+    const analysis = await analyzeRepositoryWithAI(repoData);
 
     // Step 3: Return the analysis
     return NextResponse.json({
