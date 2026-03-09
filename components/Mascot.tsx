@@ -57,10 +57,10 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
   useEffect(() => {
     if (state === "celebrating" && videoRef.current) {
       const handleEnded = () => {
-        // Hide mascot after celebration video ends
+        // Wait 5 seconds after celebration video ends, then hide mascot
         setTimeout(() => {
           setShowMascot(false);
-        }, 300);
+        }, 5000);
         
         if (onAnimationComplete) {
           onAnimationComplete();
