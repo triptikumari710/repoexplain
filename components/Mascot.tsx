@@ -76,15 +76,6 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
     }
   }, [state, onAnimationComplete]);
 
-  // Show mascot again when returning to idle
-  useEffect(() => {
-    if (state === "idle" && !showMascot) {
-      setTimeout(() => {
-        setShowMascot(true);
-      }, 300);
-    }
-  }, [state, showMascot]);
-
   return (
     <AnimatePresence>
       {showMascot && (
