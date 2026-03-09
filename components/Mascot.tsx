@@ -14,6 +14,7 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [currentVideo, setCurrentVideo] = useState<string>("/mascot/idle.mp4");
+  const [showMascot, setShowMascot] = useState(true);
 
   // Map states to video files
   const videoMap: Record<MascotState, string> = {
@@ -22,9 +23,17 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
     celebrating: "/mascot/celebrating.mp4",
   };
 
+  // Determine position based on state
+  const isCenter = state === "scanning" || state === "celebrating";
+
   // Handle state changes and video transitions
   useEffect(() => {
     const newVideo = videoMap[state];
+    
+    // Show mascot when scanning starts
+    if (state === "scanning") {
+      setShowMascot(true);
+    }
     
     if (newVideo !== currentVideo) {
       // Fade out current video
@@ -44,10 +53,15 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
     }
   }, [state, currentVideo, videoMap]);
 
-  // Handle celebrating animation completion - auto return to idle
+  // Handle celebrating animation completion - hide mascot
   useEffect(() => {
     if (state === "celebrating" && videoRef.current) {
       const handleEnded = () => {
+        // Hide mascot after celebration
+        setTimeout(() => {
+          setShowMascot(false);
+        }, 500);
+        
         if (onAnimationComplete) {
           onAnimationComplete();
         }
@@ -62,25 +76,53 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
     }
   }, [state, onAnimationComplete]);
 
+  // Show mascot again when returning to idle
+  useEffect(() => {
+    if (state === "idle" && !showMascot) {
+      setTimeout(() => {
+        setShowMascot(true);
+      }, 300);
+    }
+  }, [state, showMascot]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 100, scale: 0.8 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 pointer-events-none"
-    >
-      {/* Glassmorphism Card with soft theme */}
-      <motion.div
-        animate={{
-          y: state === "idle" ? [0, -10, 0] : 0,
-        }}
-        transition={{
-          duration: 3,
-          repeat: state === "idle" ? Infinity : 0,
-          ease: "easeInOut",
-        }}
-        className="relative"
-      >
+    <AnimatePresence>
+      {showMascot && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            x: isCenter ? "0" : "0",
+            y: isCenter ? "0" : "0"
+          }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className={`fixed z-50 pointer-events-none ${
+            isCenter 
+              ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" 
+              : "bottom-4 right-4 sm:bottom-6 sm:right-6"
+          }`}
+        >
+          {/* Glassmorphism Card with soft theme */}
+          <motion.div
+            animate={{
+              y: state === "idle" ? [0, -10, 0] : 0,
+              scale: isCenter ? 1.2 : 1,
+            }}
+            transition={{
+              y: {
+                duration: 3,
+                repeat: state === "idle" ? Infinity : 0,
+                ease: "easeInOut",
+              },
+              scale: {
+                duration: 0.5,
+                ease: "easeOut"
+              }
+            }}
+            className="relative"
+          >
         {/* Soft glow effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#7EC8E3]/30 to-[#B9A7FF]/30 rounded-3xl blur-xl"></div>
         
@@ -90,7 +132,11 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
           <div className="absolute inset-0 bg-gradient-to-br from-[#7EC8E3]/10 to-[#8A7CFF]/10 animate-pulse-glow"></div>
           
           {/* Video container */}
-          <div className="relative w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 flex items-center justify-center">
+          <div className={`relative flex items-center justify-center ${
+            isCenter 
+              ? "w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80" 
+              : "w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56"
+          }`}>
             <AnimatePresence mode="wait">
               <motion.video
                 key={currentVideo}
@@ -206,5 +252,7 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
         )}
       </motion.div>
     </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
