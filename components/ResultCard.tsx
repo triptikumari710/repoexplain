@@ -30,7 +30,7 @@ export default function ResultCard({ analysis }: ResultCardProps) {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 max-w-3xl mx-auto">
         {sections.map((section, index) => (
           <SectionCard
             key={index}
@@ -48,27 +48,27 @@ export default function ResultCard({ analysis }: ResultCardProps) {
 function SectionCard({ title, content, icon, delay }: { title: string; content: string; icon: string; delay: number }) {
   return (
     <div 
-      className="glass-strong rounded-3xl p-6 hover-glow transition-all duration-300 hover:scale-[1.02] animate-fade-in border-2 border-white shadow-xl"
+      className="glass-strong rounded-3xl p-8 hover-glow transition-all duration-300 hover:scale-[1.01] animate-fade-in border-2 border-white shadow-xl"
       style={{ animationDelay: `${delay}s` }}
     >
-      <div className="flex items-start gap-4 mb-4">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#6BB6E8] to-[#8A7CFF] flex items-center justify-center text-2xl flex-shrink-0 shadow-lg">
+      <div className="flex items-center gap-4 mb-6">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#6BB6E8] to-[#8A7CFF] flex items-center justify-center text-3xl flex-shrink-0 shadow-lg">
           {icon}
         </div>
-        <h3 className="text-xl font-bold text-slate-900 mt-2">
+        <h3 className="text-2xl font-bold text-slate-900">
           {title}
         </h3>
       </div>
       
-      <div className="text-slate-800 leading-relaxed prose prose-slate prose-sm max-w-none pl-16">
+      <div className="text-slate-800 leading-relaxed prose prose-slate prose-sm max-w-none">
         <ReactMarkdown
           components={{
-            p: ({ children }) => <p className="mb-2 last:mb-0 text-slate-800 font-medium">{children}</p>,
-            ul: ({ children }) => <ul className="list-disc list-inside mb-2 space-y-1 text-slate-800">{children}</ul>,
-            ol: ({ children }) => <ol className="list-decimal list-inside mb-2 space-y-1 text-slate-800">{children}</ol>,
-            li: ({ children }) => <li className="text-slate-800 font-medium">{children}</li>,
+            p: ({ children }) => <p className="mb-3 last:mb-0 text-slate-800 font-medium text-base">{children}</p>,
+            ul: ({ children }) => <ul className="list-disc list-inside mb-3 space-y-2 text-slate-800">{children}</ul>,
+            ol: ({ children }) => <ol className="list-decimal list-inside mb-3 space-y-2 text-slate-800">{children}</ol>,
+            li: ({ children }) => <li className="text-slate-800 font-medium text-base">{children}</li>,
             strong: ({ children }) => <strong className="font-bold text-slate-900">{children}</strong>,
-            code: ({ children }) => <code className="bg-slate-200 px-1.5 py-0.5 rounded text-slate-900 text-xs font-mono font-semibold">{children}</code>,
+            code: ({ children }) => <code className="bg-slate-200 px-2 py-1 rounded text-slate-900 text-sm font-mono font-semibold">{children}</code>,
           }}
         >
           {content}
