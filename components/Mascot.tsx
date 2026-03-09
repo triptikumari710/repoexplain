@@ -57,10 +57,10 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
   useEffect(() => {
     if (state === "celebrating" && videoRef.current) {
       const handleEnded = () => {
-        // Hide mascot after celebration
+        // Hide mascot after celebration video ends
         setTimeout(() => {
           setShowMascot(false);
-        }, 500);
+        }, 300);
         
         if (onAnimationComplete) {
           onAnimationComplete();
@@ -108,7 +108,7 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
           <motion.div
             animate={{
               y: state === "idle" ? [0, -10, 0] : 0,
-              scale: isCenter ? 1.2 : 1,
+              scale: isCenter ? 1 : 1,
             }}
             transition={{
               y: {
@@ -134,7 +134,7 @@ export default function Mascot({ state, onAnimationComplete }: MascotProps) {
           {/* Video container */}
           <div className={`relative flex items-center justify-center ${
             isCenter 
-              ? "w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80" 
+              ? "w-40 h-40 sm:w-48 sm:h-48" 
               : "w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56"
           }`}>
             <AnimatePresence mode="wait">
